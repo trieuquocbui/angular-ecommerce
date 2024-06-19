@@ -1,0 +1,167 @@
+<div class="content l-12">
+  <ul class="l-12 breadcrumb" style="padding: 10px">
+    <li class="breadcrumb-item">
+      <a [routerLink]="'/admin/order'">Danh sách phiếu đặt</a>
+    </li>
+    <li class="breadcrumb-item"><a>tạo nhà phiếu đặt</a></li>
+  </ul>
+  <div class="content__heading">
+    <h2>Mẫu tạo phiếu đặt</h2>
+  </div>
+  <div class="content__main">
+    <div class="row">
+      <div class="l-12">
+        <form [formGroup]="purchaseOrder" style="padding: 20px 60px">
+          <label for="name">Ngày lập phiếu:</label>
+          <input id="name"
+          type="date"
+          formControlName="date"
+         >
+          <span
+              class="error-message"
+              *ngIf="
+                f['date'].invalid &&
+                (f['date'].dirty || f['date'].touched)
+              "
+            >
+              <span *ngIf="f['date'].errors">
+                <span *ngIf="f['date'].errors['required']"
+                  >Trường này cần nhập</span
+                >
+              </span>
+            </span>
+            <label for="name">Chọn nhà cung cấp:</label>
+          <select
+            formControlName="supplier"
+          >
+            <option [ngValue]="null">Lựa chọn nhà cung cấp</option>
+            <option *ngFor="let supplier of supplierList" [ngValue]="supplier">
+              {{ supplier.name }}
+            </option>
+          </select>
+          <span
+            class="error-message"
+            *ngIf="
+              f['supplier'].invalid && (f['supplier'].dirty || f['supplier'].touched)
+            "
+          >
+            <span *ngIf="f['supplier'].errors">
+              <span *ngIf="f['supplier'].errors['required']"
+                >Trường này cần nhập</span
+              >
+            </span>
+          </span>
+          <div formArrayName="orderDetails">
+            <ng-container
+            *ngFor="
+              let orderDetailsForm of orderDetails.controls;
+              let i = index
+            "
+            [formGroupName]="i"
+          >
+            <div class="row" >
+              <label class="l-12" for="name">Sản phẩm {{ i + 1 }} :</label>
+              <div class="l-5">
+                <select   formControlName="product">
+                  <option [value]="null" disabled>Lựa chọn sản phẩm</option>
+                  <option
+                    *ngFor="let product of productList"
+                    [ngValue]="product"
+                    
+                  >
+                    {{ product.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="l-3">
+                <input type="number"  class="form-control" formControlName="price"  placeholder="Nhập giá"/>
+              
+              </div>
+              <div class="l-2">
+                <input type="number"  class="form-control" formControlName="quantity" placeholder="Nhập số lượng"/>
+              </div>
+              
+              
+              <div
+                class="l-2"
+                style="
+                  display: flex;
+                  flex-direction: row-reverse;
+                  margin-bottom: 15px;
+                "
+              >
+                <button
+                  style="background-color: red"
+                  (click)="deDiscountDetails(i)"
+                >
+                  Xoá
+                </button>
+              </div>
+
+             
+            </div>
+          </ng-container>
+          </div>
+
+          <div class="row">
+            <div class="l-6 infor-discount"></div>
+          </div>
+
+          <div class="row">
+            <div class="l-6 infor-discount">
+              <button class="form-group-btn" (click)="creDiscountDetails()">
+                Thêm sản phẩm
+              </button>
+            </div>
+            <div
+              class="l-6 infor-discount"
+              style="display: flex; flex-direction: row-reverse"
+            >
+              <button
+                [disabled]="purchaseOrder.invalid"
+                [className]="
+                  purchaseOrder.invalid
+                    ? 'form-group-btn-disabled'
+                    : 'form-group-btn'
+                "
+                [appModal]="'notification'"
+                [positionClose]="0"
+                [widthSize]="'20%'"
+              >
+                Xác nhận
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #context>
+    Chắc chắn bạn muốn tạo phiếu đặt này không?
+  </ng-template>
+
+  <ng-template #notify>
+    <app-notification
+      (checked)="checked($event, null, '')"
+      [template]="context"
+    >
+    </app-notification>
+  </ng-template>
+
+  <app-modal [idModal]="'notification'" [template]="notify"> </app-modal>
+
+  <ng-container
+    *ngIf="message"
+    [appModal]="'message'"
+    [positionClose]="1"
+    [widthSize]="'20%'"
+    [openModal]="true"
+  >
+    <ng-template #success>
+      {{ message }}
+    </ng-template>
+
+    <app-modal [idModal]="'message'" [template]="success"></app-modal>
+  </ng-container>
+</div>

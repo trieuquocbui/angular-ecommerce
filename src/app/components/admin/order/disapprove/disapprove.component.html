@@ -1,0 +1,28 @@
+<div class="content__main__list">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Mã phiếu đặt</th>
+        <th>Họ và tên</th>
+        <th>Tỉnh</th>
+        <th>Huyện</th>
+        <th>Xã</th>
+        <th>Địa chỉ</th>
+        <th>Ghi chú</th>
+      </tr>
+    </thead>
+    <tbody class="listTodo">
+      <ng-container *ngFor="let item of orderList; let i = index">
+        <tr>
+          <td>{{ item.id }}</td>
+          <td>{{item.user?.lastName}} {{item.user?.firstName}}</td>
+          <td>{{ item.province }}</td>
+          <td>{{ item.district }}</td>
+          <td>{{ item.ward }}</td>
+          <td>{{ item.addressHome }}</td>
+          <td>{{ item.note }}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

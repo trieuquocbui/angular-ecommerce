@@ -1,0 +1,173 @@
+<div class="content l-12">
+  <ul class="l-12 breadcrumb" style="padding: 10px">
+    <li class="breadcrumb-item">
+      <a [routerLink]="'/admin/product'">Danh sách sản phẩm</a>
+    </li>
+    <li class="breadcrumb-item"><a>Thêm giá mới</a></li>
+  </ul>
+  <div class="content__heading">
+    <h2>Mẫu thêm giá sản phẩm</h2>
+  </div>
+  <div class="content__main">
+    <div class="row">
+      <div class="l-12">
+        <div class="row" style="padding: 20px 60px">
+          <div class="l-12 infor-discount">
+            <p>Tên sản phẩm: {{ productModal.name }}</p>
+          </div>
+          <div class="l-12 infor-discount">
+            <p>Hãng: {{ productModal.brand?.name }}</p>
+          </div>
+          <div class="l-12 infor-discount">
+            <p>Cấu hình: {{ productModal.config?.nameConfig }}</p>
+          </div>
+          <div class="l-12 infor-discount">
+            <form [formGroup]="product">
+              <label for="name">Giá sản phẩm :</label>
+              <input
+                id="name"
+                type="number"
+                formControlName="newPrice"
+                placeholder="Nhập giá sản phẩm"
+              />
+              <span
+                class="error-message"
+                *ngIf="
+                  f['newPrice'].invalid &&
+                  (f['newPrice'].dirty || f['newPrice'].touched)
+                "
+              >
+                <span *ngIf="f['newPrice'].errors">
+                  <span *ngIf="f['newPrice'].errors['required']"
+                    >Trường này cần nhập</span
+                  >
+                </span>
+              </span>
+
+              <label for="name">Ngày áp dụng :</label>
+              <input
+                id="name"
+                type="date"
+                formControlName="appliedDate"
+                placeholder="Nhập giá sản phẩm"
+              />
+              <span
+                class="error-message"
+                *ngIf="
+                  f['appliedDate'].invalid &&
+                  (f['appliedDate'].dirty || f['appliedDate'].touched)
+                "
+              >
+                <span *ngIf="f['appliedDate'].errors">
+                  <span *ngIf="f['appliedDate'].errors['required']"
+                    >Trường này cần nhập</span
+                  >
+                </span>
+              </span>
+
+              <button
+                [disabled]="!(f['newPrice'].valid && f['appliedDate'].valid)"
+                [className]="
+                  !(f['newPrice'].valid && f['appliedDate'].valid)
+                    ? 'form-group-btn-disabled'
+                    : 'form-group-btn'
+                "
+                [appModal]="'notification'"
+                [positionClose]="0"
+                [widthSize]="'20%'"
+              >
+                Xác nhận
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #context> Chắc chắn bạn thêm giá này không? </ng-template>
+
+    <ng-template #notify>
+      <app-notification
+        (checked)="checked($event, null, '')"
+        [template]="context"
+      >
+      </app-notification>
+    </ng-template>
+
+    <app-modal [idModal]="'notification'" [template]="notify"> </app-modal>
+
+    <ng-container
+      *ngIf="message"
+      [appModal]="'notification-success'"
+      [positionClose]="1"
+      [widthSize]="'20%'"
+      [openModal]="true"
+    >
+      <ng-template #success>
+        {{ message }}
+      </ng-template>
+
+      <app-modal
+        [idModal]="'notification-success'"
+        [template]="success"
+      ></app-modal>
+    </ng-container>
+  </div>
+</div>
+
+<div class="content l-12">
+  <div class="content__main">
+    <div class="content__main__list">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Mã sản phẩm</th>
+            <th>Tên sản phẩm</th>
+            <th>Giá</th>
+            <th>Ngày áp dụng</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody class="listTodo">
+          <ng-container *ngFor="let item of priceList; let i = index">
+            <tr>
+              <td>{{ productModal.id }}</td>
+              <td>{{ productModal.name }}</td>
+              <td>{{ item.newPrice  | number}} VND</td>
+              <td>{{ item.appliedDate }}</td>
+              <td>
+                <div class="operation">
+                  <button
+                    class="btn btn-remove" style="display: flex;
+                    justify-content: center;
+                    align-items: center;"
+                    title="Xoá"
+                    [appModal]="item.appliedDate + ''"
+                    [positionClose]="i"
+                    [widthSize]="'20%'"
+                  >
+                    <fa-icon style="color: red;" [icon]="iconDelete" class="icon"></fa-icon>
+                  </button>
+                  <ng-template #content>
+                    Chắc chắn bạn xoá giá này không?
+                  </ng-template>
+                  <ng-template #notify>
+                    <app-notification
+                      (checked)="checked($event, item, 'delete')"
+                      [template]="content"
+                    ></app-notification>
+                  </ng-template>
+
+                  <app-modal
+                    [idModal]="item.appliedDate + ''"
+                    [template]="notify"
+                  ></app-modal>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

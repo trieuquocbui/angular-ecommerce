@@ -1,0 +1,152 @@
+<div class="row r-m">
+  <ul class="col l-12 breadcrumb">
+    <li class="breadcrumb-item"><a href="">Trang chủ</a></li>
+    <li class="breadcrumb-item"><a>So sánh</a></li>
+  </ul>
+</div>
+
+<div class="row mt-30 mb-40 c-p-name">
+  <div class=" l-6 name">
+    <h2>{{productLeft?.name}}</h2>
+  </div>
+  <div class=" l-6 name">
+    <h2 >{{productRight?.name}}</h2>
+  </div>
+</div>
+
+<div class="row mt-30 mb-40 c-p-body">
+  <div class=" l-6 body">
+    <input placeholder="Nhập tên sản phẩm cần so sánh" [value]="productLeft?.name" (keyup)="searchProductLeft($event)" (blur)="hideSearchLeft()"/>
+    <ul #suggestedSearchLeft class="suggested-search">
+      <li *ngFor="let item of productListLeft">
+        <a (mousedown)="selectProductLeft(item?.name)">
+          <div class="suggested-search-block row">
+            <div class="suggested-search-img l-2">
+              <img
+              [src]="ImageUrl + item.img"
+                alt=""
+              />
+            </div>
+            <div class="suggested-search-info l-10">
+              <span class="suggested-search-name"
+                >{{item.name}} {{item.config?.operatingSystem}} {{item.config?.hardDrive}}</span
+              >
+              <span class="suggested-search-cost">{{totalPrice(item.price!,item.rate!) | number}} VND</span>
+            </div>
+          </div>
+        </a>
+      </li> 
+    </ul>
+    <div class="conten-search" *ngIf="productLeft">
+      <div class="conten-search-img">
+        <img
+        [src]="ImageUrl + productLeft.img"
+          alt=""
+        />
+      </div>
+      <div class="conten-search-cost">
+        <span>Chỉ từ <span>{{totalPrice(productLeft.price!,productLeft.rate!) | number}} VND</span> </span>
+      </div>
+      <div class="conten-search-details">
+        <a class="link" [routerLink]="['/products/',productLeft.id]">Xem chi tiết </a>
+      </div>
+    </div>
+  </div>
+  <div class=" l-6 body">
+    <input placeholder="Nhập tên sản phẩm cần so sánh" [value]="productRight?.name" (keyup)="searchProductRight($event)" (blur)=" hideSearchRight()"/>
+    <ul #suggestedSearchRight class="suggested-search">
+      <li *ngFor="let item of productListRight">
+        <a (mousedown)="selectProductRight(item?.name)">
+          <div class="suggested-search-block row">
+            <div class="suggested-search-img l-2">
+              <img
+              [src]="ImageUrl + item.img"
+                alt=""
+              />
+            </div>
+            <div class="suggested-search-info l-10">
+              <span class="suggested-search-name"
+                >{{item.name}} {{item.config?.operatingSystem}} {{item.config?.hardDrive}}</span
+              >
+              <span class="suggested-search-cost">{{totalPrice(item.price!,item.rate!) | number}} VND</span>
+            </div>
+          </div>
+        </a>
+      </li> 
+    </ul>
+    <div class="conten-search" *ngIf="productRight">
+      <div class="conten-search-img">
+        <img
+        [src]="ImageUrl + productRight.img"
+          alt=""
+        />
+      </div>
+      <div class="conten-search-cost">
+        <span>Chỉ từ <span>{{totalPrice(productRight.price!,productRight.rate!) | number}} VND</span> </span>
+      </div>
+      <div class="conten-search-details">
+        <a class="link" [routerLink]="['/products/',productRight.id]">Xem chi tiết </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-30 mb-40 c-compare-detail">
+  <div class="c-compare-title col-12">
+    <h2 class="title">Thông tin so sánh cấu hình</h2>
+  </div>
+  <div class="c-compare-content col-12">
+    <ul class="c-compare-content-table">
+      <li>
+        <div class="prop">Màng hình</div>
+        <div class="detail">{{productLeft?.config?.displaySize}}</div>
+        <div class="detail">{{productRight?.config?.displaySize}}</div>
+      </li>
+      <li>
+        <div class="prop">CPU</div>
+        <div class="detail">{{productLeft?.config?.cpu}}</div>
+        <div class="detail">{{productRight?.config?.cpu}}</div>
+      </li>
+      <li>
+        <div class="prop">Card đồ hoạ</div>
+        <div class="detail">{{productLeft?.config?.graphicCard}}</div>
+        <div class="detail">{{productRight?.config?.graphicCard}}</div>
+      </li>
+      <li>
+        <div class="prop">Ổ cứng</div>
+        <div class="detail">{{productLeft?.config?.hardDrive}}</div>
+        <div class="detail">{{productRight?.config?.hardDrive}}</div>
+      </li>
+      <li>
+        <div class="prop">Hệ đề hành</div>
+        <div class="detail">{{productLeft?.config?.operatingSystem}}</div>
+        <div class="detail">{{productRight?.config?.operatingSystem}}</div>
+      </li>
+      <li>
+        <div class="prop">Trọng lượng</div>
+        <div class="detail">{{productLeft?.config?.weight}}</div>
+        <div class="detail">{{productRight?.config?.weight}}</div>
+      </li>
+      <li>
+        <div class="prop">Ram</div>
+        <div class="detail">{{productLeft?.config?.ram}}</div>
+        <div class="detail">{{productRight?.config?.ram}}</div>
+      </li>
+      <li>
+        <div class="prop">Kích thước</div>
+        <div class="detail">{{productLeft?.config?.size}}</div>
+        <div class="detail">{{productRight?.config?.size}}</div>
+      </li>
+      <li>
+        <div class="prop">Năm sản xuất</div>
+        <div class="detail">{{productLeft?.config?.madeYear}}</div>
+        <div class="detail">{{productRight?.config?.madeYear}}</div>
+      </li>
+      <li>
+        <div class="prop">Nơi lắp ráp</div>
+        <div class="detail">{{productLeft?.config?.madeIn}}</div>
+        <div class="detail">{{productRight?.config?.madeIn}}</div>
+      </li>
+    </ul>
+  </div>
+</div>

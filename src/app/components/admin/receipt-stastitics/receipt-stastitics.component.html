@@ -1,0 +1,60 @@
+<div class="content l-12">
+  <div class="content__heading">
+    <h2>Thống kê đơn nhập hàng đã nhập sản phẩm vào</h2>
+  </div>
+  <div class="content__main">
+    <div class="content__main__heading">
+        <div class="l-12">
+          <form [formGroup]="dateStatistics" (ngSubmit)="onSubmit()" style="padding: 20px 60px">
+            <label for="fromDate">Từ ngày :</label>
+          <input
+            id="fromDate"
+            type="date"
+            formControlName="fromDate"
+          />
+          <span
+            class="error-message"
+            *ngIf="f['fromDate'].invalid && (f['fromDate'].dirty || f['fromDate'].touched)"
+          >
+            <span *ngIf="f['fromDate'].errors">
+              <span *ngIf="f['fromDate'].errors['required']"
+                >Trường này cần nhập</span
+              >
+            </span>
+          </span>
+          <label for="toDate">Tới ngày</label>
+          <input
+            id="toDate"
+            type="date"
+            formControlName="toDate"
+
+          />
+          <span
+            class="error-message"
+            *ngIf="f['toDate'].invalid && (f['toDate'].dirty || f['toDate'].touched)"
+          >
+            <span *ngIf="f['toDate'].errors">
+              <span *ngIf="f['toDate'].errors['required']"
+                >Trường này cần nhập</span
+              >
+            </span>
+          </span>
+            <button type="submit"
+              [disabled]="!dateStatistics.valid"
+              [className]="!dateStatistics.valid
+                  ? 'form-group-btn-disabled'
+                  : 'form-group-btn'
+              "
+            >
+              Xác nhận
+            </button>
+          </form>
+      </div>
+    </div>
+    <div class="content__main__list">
+      <canvas  id="MyChart" >{{ chart }}</canvas>
+    </div>
+  
+  </div>
+</div>
+

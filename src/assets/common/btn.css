@@ -1,0 +1,25 @@
+.btn:not(:last-child){
+    margin-right: 4px;
+}
+
+.btn.btn-info{
+    background-color: rgb(78, 205, 214);
+    color: white;
+}
+
+.btn.btn-remove{
+	background-color: red;
+    color: white;
+}
+
+.btn.btn-update{
+	background-color: rgb(78, 214, 98);
+    color: white;
+}
+
+.btn:hover{
+    background-color: #776BCC;
+}
+
+
+

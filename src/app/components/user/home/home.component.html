@@ -1,0 +1,171 @@
+<app-slideshow-user></app-slideshow-user>
+<div class="row">
+  <div class="l-12 brand-list">
+    <ul class="row">
+      <ng-container *ngFor="let item of brandList">
+        <li class="l-2">
+          <a (click)="choseeBrand(item.id!)"
+            ><img
+              [src]="ImageUrl + item?.img"
+              alt=""
+          /></a>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+
+  <div class="l-2">
+    <div class="row">
+      <div class="l-12 mb-10">
+        <button [appModal]="'search'" [positionClose]="0" [widthSize]="'40%'">
+          Tìm kiếm thông minh
+        </button>
+      </div>
+      <div class="l-12 mb-10">
+        <h2>Thanh ram</h2>
+        <div class="checkbox-list" *ngFor="let item of listRam">
+          <div class="checkbox-list-item">
+            <input [(ngModel)]="item.checked" (ngModelChange)="itemChangedRam(item)" type="checkbox" name="" id="" />
+            <span>{{item.name}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="l-12 mb-10">
+        <h2>Chip</h2>
+        <div class="checkbox-list" *ngFor="let item of listCpu">
+          <div class="checkbox-list-item">
+            <input [(ngModel)]="item.checked" (ngModelChange)="itemChangedCpu(item)" type="checkbox" name="" id="" />
+            <span>{{item.name}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="l-12 ">
+        <h2>Giá</h2>
+        <div class="checkbox-list" *ngFor="let item of listPrice">
+          <div class="checkbox-list-item">
+            <input [(ngModel)]="item.checked" (ngModelChange)="itemChangedPrice(item)" type="checkbox" name="" id="" />
+            <span>{{item.name}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="l-10 product-list">
+    
+    <div class="product-list-item l-4" *ngFor="let item of productList">
+      <div class="item-img">
+        <a routerLink="/products/{{item.id}}">
+          <img
+          [src]="ImageUrl + item.img"
+            alt=""
+          />
+        </a>
+      </div>
+      <div class="item-name">
+        <a [routerLink]="['/products', item?.id]">{{ item.name }}</a>
+      </div>
+      <div class="item-cost">
+        <span class="item-cost-reduce">{{ caculatePrice(item.price!,item.rate!) | number}}VND</span>
+
+        <span class="item-cost-price" *ngIf="item.rate != 0">{{ item.price | number}} VND</span>
+      </div>
+      <div class="item-config">
+        <div class="item-config-param">
+          <span data-title="Màn hình"
+            ><fa-icon [icon]="displaySize" class="icon"></fa-icon>
+            {{ item.config?.displaySize }} inh</span
+          >
+          <span data-title="CPU"
+            ><fa-icon [icon]="cpu" class="icon"></fa-icon>
+            {{ item.config?.cpu }}</span
+          >
+          <span data-title="RAM"
+            ><fa-icon [icon]="ram" class="icon"></fa-icon>
+            {{ item.config?.ram }} GB</span
+          >
+          <span data-title="Ổ cứng"
+            ><fa-icon [icon]="hardDrive" class="icon"></fa-icon>
+            {{ item.config?.hardDrive }}</span
+          >
+          <span data-title="Đồ hoạ"
+            ><fa-icon [icon]="graphicCard" class="icon"></fa-icon>
+            {{ item.config?.graphicCard }}</span
+          >
+          <span data-title="Trọng lượng"
+            ><fa-icon [icon]="weight" class="icon"></fa-icon>
+            {{ item.config?.weight }}</span
+          >
+        </div>
+      </div>
+      <div class="item-btn">
+        <button [routerLink]="['/products', item.id]" class="btn-buy">
+          Xem hàng
+        </button>
+        <button class="btn-compare" (click)="redirectToPage(item)">So sánh</button>
+      </div>
+    </div>
+
+    <div class="product-list-pagination l-12 r-m">
+      <app-pagination
+        [currentPage]="currentPage!"
+        [totalPages]="totalPages"
+        [pageSize]="itemsPerPage"
+        (goToPage)="onPageChange($event)"
+      >
+      </app-pagination>
+    </div>
+  </div>
+</div>
+
+<ng-template #content> 
+    <form [formGroup]="predict">
+        <!-- <div class="">
+            <label for="subscribe" class="f-w-7">1. Lĩnh vực (không bắt buộc):</label>
+            <div class="row mt-6">
+              <div class="l-4" *ngFor="let item of listJob">
+                <input type="checkbox" id="subscribe" formControlName="job" [value]="item.name">
+                <label for="message">{{item.name}}</label>
+                </div>
+            </div>
+        </div>
+        <div class="mt-10">
+          <label for="subscribe" class="f-w-7">2. Thương hiệu (không bắt buộc)   :</label>
+          <div class="row mt-6">
+            <div class="l-4" *ngFor="let item of listBrand">
+              <input type="checkbox" id="subscribe" name="brand" formControlName="brand">
+              <label for="message">{{item.name}}</label>
+          </div>
+        </div>
+      </div>
+      
+
+      <div class="mt-10 ">
+        <label for="subscribe" class="f-w-7">3. Giá (không bắt buộc):</label>
+        <div class="row mt-6">
+          <div class="l-9">
+            <input type="range" id="subscribe" name="subscribe" formControlName="price" min="1000000" max="10000000">
+          </div>
+          <div class="l-3">
+            <span style="display: block; text-align: center;">100.000.000 VND</span>
+          </div>
+        </div>
+    </div>
+     -->
+        <div class="mt-10 mb-10">
+            <label for="message" class="f-w-7">Mô tả của bạn:</label>
+            <textarea class="mt-10" formControlName="description" id="message" name="message" rows="4" placeholder="Nhập mô tả laptop bạn muốn mua"></textarea>
+        </div>
+    </form>
+
+</ng-template>
+<ng-template #notify>
+  <app-notification
+    (checked)="checked($event, predict, '')"
+    [template]="content"
+    [title]="'Tìm kiếm laptop theo mô tả'"
+    [submitName]="'Tìm kiếm'"
+    [activeSubmit]="predict.invalid"
+  ></app-notification>
+</ng-template>
+<app-modal [idModal]="'search'" [template]="notify"></app-modal>
