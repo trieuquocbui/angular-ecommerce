@@ -26,15 +26,3 @@ jobs:
     - name: Build
       run: npm run build:prod
 
-    - name: Setup Git
-      run: |
-        git config --global user.email "buiquoctrieu020402@gmail.com"
-        git config --global user.name "trieuquocbui"
-
-    - name: Deploy
-      if: success()
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        github_token: ${{ secrets.DEPLOY_PRIVATE_KEY }}
-        publish_dir: ./dist
-        enable_jekyll: false 
