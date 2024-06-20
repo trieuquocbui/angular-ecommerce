@@ -29,11 +29,14 @@ jobs:
 
     - name: Build
       run: npm run build:prod
+
+    - name: Check build output
+      run: ls -al dist/e-ecommerce/
       
     - name: Deploy
       if: success()
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: dist/e-ecommerce/
+        publish_dir: dist/e-ecommerce/.
         enable_jekyll: true
