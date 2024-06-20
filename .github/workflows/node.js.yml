@@ -30,8 +30,11 @@ jobs:
     - name: Build
       run: npm run build:prod
 
-    - name: Check build output
-      run: ls -al dist/e-ecommerce/
+    - name: List all files
+      run: ls -al
+
+    - name: List dist directory
+      run: ls -al dist/
       
     - name: Deploy
       if: success()
