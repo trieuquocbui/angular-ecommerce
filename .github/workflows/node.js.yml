@@ -29,17 +29,11 @@ jobs:
 
     - name: Build
       run: npm run build:prod
-
-    - name: List all files
-      run: ls -al
-
-    - name: List dist directory
-      run: ls -al dist/
       
     - name: Deploy
       if: success()
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: dist/e-ecommerce/.
+        publish_dir: dist/angular-laptop-project
         enable_jekyll: true
